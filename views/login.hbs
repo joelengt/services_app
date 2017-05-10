@@ -1,0 +1,55 @@
+<form id="login" method="post">
+    <input type="email" name="email" value="" placeholder="Ingresa tu email">
+    <br><br>
+    <input type="password" name="password" value="" placeholder="ingresa tu contraseña">
+    <br><br>
+    <button id="button">enviar</button>
+</form>
+
+
+{{#if val}}
+    
+    <div>
+        <div>
+            bienvenido {{ message }}
+        </div>
+        {{!-- This comment will not be in the output --}}
+        <div>
+            {{#if val}}
+                <b>El valor es true</b>
+            {{/if}}
+        </div>
+        <div>
+            {{#each list}}
+                <div>
+                    <hr>
+                    <p>name: {{this.name}}</p>
+                    <p>age: {{this.age}}</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+{{/if}}
+
+
+<script type="text/javascript">
+    // usando el api fetch
+    const formLogin = document.querySelector('#login')
+    const formData = new FormData(formLogin) // al pasarle el formulario, toca los name de los inputs para enviar
+    const btnEnviar = document.querySelector('#button')
+
+    btnEnviar.addEventListener('click' , event => {
+        event.preventDefault();
+        fetch('/api/sigin', {
+            method: 'post',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('token', data.token)
+        })
+    })
+
+</script>
+
